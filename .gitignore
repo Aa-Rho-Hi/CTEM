@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.env
+dist/
+build/
+*.egg-info/
+node_modules/
+neo4j/
+postgres_data/
+redis_data/
+
