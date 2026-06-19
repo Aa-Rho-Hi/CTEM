@@ -1,0 +1,17 @@
+.git
+.gitignore
+.pytest_cache
+.vscode
+__pycache__
+*.py[cod]
+*.egg-info
+.env
+.env.*
+celerybeat-schedule
+node_modules
+frontend/.git
+frontend/.next
+frontend/node_modules
+frontend/.env*
+frontend/tsconfig.tsbuildinfo
+welcome-to-docker

@@ -110,7 +110,7 @@ class Vulnerability(Base, TenantMixin, TimestampMixin):
     id: Mapped[Uuid] = mapped_column(Uuid, primary_key=True, default=uuid4)
     asset_id: Mapped[Uuid | None] = mapped_column(ForeignKey("assets.id"), nullable=True)
     scan_finding_id: Mapped[Uuid | None] = mapped_column(ForeignKey("scan_findings.id"), nullable=True)
-    cve_id: Mapped[str] = mapped_column(String(32), nullable=False)
+    cve_id: Mapped[str] = mapped_column(String(64), nullable=False)
     source_tool: Mapped[str] = mapped_column(String(64), nullable=False)
     port: Mapped[int | None] = mapped_column(Integer, nullable=True)
     status: Mapped[FindingStatus] = mapped_column(SqlEnum(FindingStatus), nullable=False, default=FindingStatus.open)
@@ -165,7 +165,7 @@ class Vulnerability(Base, TenantMixin, TimestampMixin):
 class NvdEnrichmentCache(Base, TimestampMixin):
     __tablename__ = "nvd_enrichment_cache"
     id: Mapped[Uuid] = mapped_column(Uuid, primary_key=True, default=uuid4)
-    cve_id: Mapped[str] = mapped_column(String(32), nullable=False, unique=True)
+    cve_id: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
     payload: Mapped[bytes] = mapped_column(LargeBinary, nullable=False)
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
 

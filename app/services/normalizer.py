@@ -1,15 +1,28 @@
+import re
 from typing import Any, Callable
 
 from app.schemas.discover import NormalizedFinding
+
+_CVE_RE = re.compile(r"CVE-\d{4}-\d{4,}", re.IGNORECASE)
 
 
 class NormalizerService:
     @staticmethod
     def _extract_cve(raw: dict[str, Any]) -> str | None:
-        for key in ("cve_id", "cve"):
+        for key in ("cve_id", "cve", "vulnerability_id", "vuln_id", "plugin_id", "id"):
             value = raw.get(key)
             if value:
-                return str(value).strip().upper()
+                val = str(value).strip().upper()
+                if _CVE_RE.match(val):
+                    return val
+                if key in ("cve_id", "cve"):
+                    return val
+        for key in ("description", "vulnerability", "title", "issue", "name", "summary", "details", "output"):
+            value = raw.get(key)
+            if value:
+                match = _CVE_RE.search(str(value))
+                if match:
+                    return match.group(0).upper()
         return None
 
     @staticmethod

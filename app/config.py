@@ -41,6 +41,15 @@ class Settings(BaseSettings):
     environment: Literal["development", "staging", "production"] = Field(alias="ENVIRONMENT")
     log_level: str = Field(alias="LOG_LEVEL")
 
+    @field_validator("database_url")
+    @classmethod
+    def normalize_database_url(cls, value: str) -> str:
+        if value.startswith("postgres://"):
+            return value.replace("postgres://", "postgresql+asyncpg://", 1)
+        if value.startswith("postgresql://"):
+            return value.replace("postgresql://", "postgresql+asyncpg://", 1)
+        return value
+
     @field_validator(
         "jwt_secret_key",
         "openai_api_key",
